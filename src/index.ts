@@ -31,6 +31,33 @@ const apiKeyAuth = (req: Request, res: Response, next: any) => {
   next();
 };
 
+// Root endpoint - API documentation
+app.get('/', (req: Request, res: Response) => {
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  res.json({
+    message: 'Shopify Product Metafield API',
+    version: '1.0.0',
+    endpoints: {
+      health: {
+        url: `${baseUrl}/health`,
+        method: 'GET',
+        description: 'Health check endpoint',
+        authentication: 'None required',
+      },
+      products: {
+        url: `${baseUrl}/api/products`,
+        method: 'GET',
+        description: 'Fetch all products with metafields',
+        authentication: 'API key required (x-api-key header)',
+        example: `curl -H "x-api-key: YOUR_API_KEY" ${baseUrl}/api/products`,
+      },
+    },
+    documentation: {
+      github: 'https://github.com/saulkropman-design/Shop-API',
+    },
+  });
+});
+
 // Health check endpoint (no auth required)
 app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
