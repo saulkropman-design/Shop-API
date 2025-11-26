@@ -39,7 +39,7 @@ async function fetchWithRetry(
 }
 
 // Main function to fetch all products with pagination
-export async function fetchAllProducts(options?: FetchOptions & { maxProducts?: number }): Promise<{
+export async function fetchAllProducts(options?: FetchOptions): Promise<{
   products: Product[];
   totalCount: number;
 }> {

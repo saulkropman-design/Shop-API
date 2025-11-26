@@ -90,6 +90,7 @@ export interface TransformedProduct {
 export interface FetchOptions {
   cursor?: string;
   limit?: number;
+  maxProducts?: number;
 }
 
 export interface APIResponse {
