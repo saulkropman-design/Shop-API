@@ -21,6 +21,7 @@ const shopify = shopifyApi({
   apiVersion: LATEST_API_VERSION,
   isEmbeddedApp: false,
   isCustomStoreApp: true,
+  adminApiAccessToken: ADMIN_API_ACCESS_TOKEN,
 });
 
 // Create a session for the private app
