@@ -20,6 +20,17 @@ export const PRODUCTS_QUERY = `
           productType
           vendor
           tags
+          images(first: 10) {
+            edges {
+              node {
+                id
+                url
+                altText
+                width
+                height
+              }
+            }
+          }
           metafields(first: 100) {
             edges {
               node {

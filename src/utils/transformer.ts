@@ -51,6 +51,7 @@ function transformProduct(product: Product): TransformedProduct {
     productType: product.productType,
     vendor: product.vendor,
     tags: product.tags,
+    images: product.images.edges.map(edge => edge.node),
     metafields: transformMetafields(product.metafields.edges),
     variants: product.variants.edges.map(edge => transformVariant(edge.node)),
   };

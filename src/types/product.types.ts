@@ -9,6 +9,18 @@ export interface MetafieldEdge {
   node: Metafield;
 }
 
+export interface Image {
+  id: string;
+  url: string;
+  altText: string | null;
+  width: number;
+  height: number;
+}
+
+export interface ImageEdge {
+  node: Image;
+}
+
 export interface Variant {
   id: string;
   title: string;
@@ -32,6 +44,9 @@ export interface Product {
   productType: string;
   vendor: string;
   tags: string[];
+  images: {
+    edges: ImageEdge[];
+  };
   metafields: {
     edges: MetafieldEdge[];
   };
@@ -83,6 +98,7 @@ export interface TransformedProduct {
   productType: string;
   vendor: string;
   tags: string[];
+  images: Image[];
   metafields: TransformedMetafields;
   variants: TransformedVariant[];
 }
