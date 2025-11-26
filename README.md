@@ -13,11 +13,38 @@ A private Shopify app that exposes an API endpoint to fetch all product data inc
 
 ## Prerequisites
 
-- Node.js 18+ installed
-- Shopify Admin API access token (from private app)
+- Shopify Admin API access token (from custom app)
 - Shopify store URL
+- Railway account (for cloud deployment) OR Node.js 18+ (for local)
 
-## Installation
+## Deployment Options
+
+### ⭐ Option 1: Deploy to Railway (Recommended)
+
+**Deploy to the cloud** - no need to run locally! Railway provides:
+- ✅ No timeout limits (handles stores with 50k products)
+- ✅ Free tier with 500 hours/month
+- ✅ Automatic HTTPS
+- ✅ Always-on hosting
+
+**📖 Complete guide**: [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)
+
+**Quick Deploy:**
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login and deploy
+railway login
+railway init
+railway up
+
+# Set environment variables in Railway dashboard
+```
+
+Your API will be live at: `https://your-app.up.railway.app/api/products`
+
+### Option 2: Run Locally (Testing Only)
 
 1. **Install dependencies**:
    ```bash
@@ -31,6 +58,7 @@ A private Shopify app that exposes an API endpoint to fetch all product data inc
    SHOP_URL=your-store.myshopify.com
    ADMIN_API_ACCESS_TOKEN=shpat_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
    PORT=3000
+   API_KEY=your-optional-secret-key
    ```
 
 ## Usage

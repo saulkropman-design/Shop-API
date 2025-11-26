@@ -9,13 +9,35 @@ const PORT = process.env.PORT || 3000;
 // Middleware to parse JSON
 app.use(express.json());
 
-// Health check endpoint
+// Optional API key authentication middleware
+const apiKeyAuth = (req: Request, res: Response, next: any) => {
+  const API_KEY = process.env.API_KEY;
+
+  // If no API_KEY is set in environment, skip authentication
+  if (!API_KEY) {
+    return next();
+  }
+
+  // Check for API key in header
+  const providedKey = req.headers['x-api-key'];
+
+  if (providedKey !== API_KEY) {
+    return res.status(401).json({
+      success: false,
+      error: 'Unauthorized - Invalid or missing API key',
+    });
+  }
+
+  next();
+};
+
+// Health check endpoint (no auth required)
 app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Main endpoint to fetch all products with metafields
-app.get('/api/products', async (req: Request, res: Response) => {
+// Main endpoint to fetch all products with metafields (with optional auth)
+app.get('/api/products', apiKeyAuth, async (req: Request, res: Response) => {
   const startTime = Date.now();
 
   console.log('\n' + '='.repeat(60));
