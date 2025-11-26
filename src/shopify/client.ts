@@ -1,3 +1,4 @@
+import '@shopify/shopify-api/adapters/node';
 import { shopifyApi, LATEST_API_VERSION, Session } from '@shopify/shopify-api';
 import dotenv from 'dotenv';
 
