@@ -6,6 +6,13 @@ import type {
   MetafieldEdge,
 } from '../types/product.types.js';
 
+// Helper to extract numeric ID from Shopify GID
+function extractId(gid: string): string {
+  // Extracts "123" from "gid://shopify/Product/123"
+  const parts = gid.split('/');
+  return parts[parts.length - 1];
+}
+
 // Transform metafields from array of edges to key-value object
 function transformMetafields(metafieldEdges: MetafieldEdge[]): TransformedMetafields {
   const result: TransformedMetafields = {};
@@ -32,7 +39,7 @@ function transformMetafields(metafieldEdges: MetafieldEdge[]): TransformedMetafi
 // Transform a single variant
 function transformVariant(variant: any): TransformedVariant {
   return {
-    id: variant.id,
+    id: extractId(variant.id),
     title: variant.title,
     sku: variant.sku,
     price: variant.price,
@@ -44,14 +51,20 @@ function transformVariant(variant: any): TransformedVariant {
 // Transform a single product
 function transformProduct(product: Product): TransformedProduct {
   return {
-    id: product.id,
+    id: extractId(product.id),
     title: product.title,
     handle: product.handle,
     status: product.status,
     productType: product.productType,
     vendor: product.vendor,
     tags: product.tags,
-    images: product.images.edges.map(edge => edge.node),
+    images: product.images.edges.map(edge => ({
+      id: extractId(edge.node.id),
+      url: edge.node.url,
+      altText: edge.node.altText,
+      width: edge.node.width,
+      height: edge.node.height,
+    })),
     metafields: transformMetafields(product.metafields.edges),
     variants: product.variants.edges.map(edge => transformVariant(edge.node)),
   };

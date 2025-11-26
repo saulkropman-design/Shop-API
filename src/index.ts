@@ -90,48 +90,20 @@ app.get('/api/products', apiKeyAuth, async (req: Request, res: Response) => {
     // Calculate execution time
     const executionTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
-    // Build response
-    const response: APIResponse = {
-      success: true,
-      data: {
-        products,
-        totalCount: products.length,
-        hasNextPage: false,
-        cursor: null,
-      },
-      metadata: {
-        fetchedAt: new Date().toISOString(),
-        executionTime: `${executionTime}s`,
-      },
-    };
-
     console.log('✅ Response ready!');
     console.log(`📊 Total products: ${products.length}`);
     console.log(`⏱️  Execution time: ${executionTime}s`);
     console.log('='.repeat(60) + '\n');
 
-    // Send JSON response
-    res.json(response);
+    // Send just the products array directly
+    res.json({ products });
   } catch (error: any) {
     console.error('❌ Error processing request:', error.message);
     console.error(error.stack);
 
-    const response: APIResponse = {
-      success: false,
-      data: {
-        products: [],
-        totalCount: 0,
-        hasNextPage: false,
-        cursor: null,
-      },
-      metadata: {
-        fetchedAt: new Date().toISOString(),
-        executionTime: '0s',
-      },
+    res.status(500).json({
       error: error.message || 'Unknown error occurred',
-    };
-
-    res.status(500).json(response);
+    });
   }
 });
 
