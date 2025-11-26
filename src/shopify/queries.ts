@@ -6,7 +6,7 @@
 
 export const PRODUCTS_QUERY = `
   query GetProducts($cursor: String, $limit: Int!) {
-    products(first: $limit, after: $cursor) {
+    products(first: $limit, after: $cursor, query: "status:ACTIVE") {
       pageInfo {
         hasNextPage
         endCursor
