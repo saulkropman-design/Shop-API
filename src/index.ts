@@ -72,9 +72,15 @@ app.get('/api/products', apiKeyAuth, async (req: Request, res: Response) => {
   console.log('='.repeat(60));
 
   try {
+    // Get optional maxProducts parameter from query string
+    const maxProducts = req.query.maxProducts
+      ? parseInt(req.query.maxProducts as string)
+      : undefined;
+
     // Fetch products from Shopify
     const rawData = await fetchAllProducts({
       cursor: req.query.cursor as string | undefined,
+      maxProducts,
     });
 
     // Transform data to clean JSON structure

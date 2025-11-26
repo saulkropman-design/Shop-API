@@ -39,7 +39,7 @@ async function fetchWithRetry(
 }
 
 // Main function to fetch all products with pagination
-export async function fetchAllProducts(options?: FetchOptions): Promise<{
+export async function fetchAllProducts(options?: FetchOptions & { maxProducts?: number }): Promise<{
   products: Product[];
   totalCount: number;
 }> {
@@ -48,11 +48,15 @@ export async function fetchAllProducts(options?: FetchOptions): Promise<{
   let cursor: string | null = options?.cursor || null;
   let pageCount = 0;
   const limit = options?.limit || 50;
+  const maxProducts = options?.maxProducts; // Optional limit on total products
 
   console.log('🚀 Starting product fetch...');
   console.log(`📦 Batch size: ${limit} products per request`);
+  if (maxProducts) {
+    console.log(`🎯 Max products to fetch: ${maxProducts}`);
+  }
 
-  while (hasNextPage) {
+  while (hasNextPage && (!maxProducts || products.length < maxProducts)) {
     try {
       // Execute GraphQL query with retry logic
       const response = await fetchWithRetry(
